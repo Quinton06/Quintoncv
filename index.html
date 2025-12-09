@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quinton - Biomedical Engineer Resume</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #122c4f;
+            --secondary-green: #5b88b2;
+            --accent-green: #5b88b2;
+            --light-green: #fbf9e4;
+            --earth-brown: #fbf9e4;
+            --cream: #fbf9e4;
+            --white: #f0f0f0;
+            --text-dark: #282828;
+            --text-light: #536878;
+            --bg: #122c4f;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            background-attachment: fixed;
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .main-wrapper {
+            display: flex;
+            gap: 0;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .profile-sidebar {
+            width: 280px;
+            background: var(--white);
+            padding: 40px 25px;
+            box-shadow: 5px 0 20px rgba(0, 0, 0, 0.15);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .profile-photo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 5px solid var(--primary-green);
+            margin: 20px auto;
+            object-fit: cover;
+            box-shadow: 0 8px 25px rgba(27, 94, 32, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-photo:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-info {
+            text-align: center;
+        }
+
+        .profile-info h1 {
+            color: var(--primary-green);
+            font-size: 1.8em;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .profile-info .title {
+            color: var(--accent-green);
+            font-size: 1em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .contact-info,
+        .location {
+            display: none;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            gap: 0;
+            margin-left: 280px;
+            width: calc(100% - 280px);
+        }
+
+        .tabs-sidebar {
+            width: 140px;
+            background: var(--white);
+            padding: 30px 15px;
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            right: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tabs-sidebar h3 {
+            color: var(--primary-green);
+            font-size: 0.85em;
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--light-green);
+            font-weight: 700;
+        }
+
+        .tab-button {
+            width: 100%;
+            padding: 10px 8px;
+            margin-bottom: 8px;
+            background: var(--cream);
+            border: 2px solid var(--light-green);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.7em;
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            text-align: center;
+            word-wrap: break-word;
+        }
+
+        .tab-button:hover {
+            background: var(--light-green);
+            color: var(--primary-green);
+            transform: translateX(-5px);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: var(--white);
+            border-color: var(--primary-green);
+            box-shadow: 0 5px 15px rgba(27, 94, 32, 0.3);
+        }
+
+        .content-main {
+            flex: 1;
+            background: var(--white);
+            padding: 50px 60px;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0;
+            box-shadow: none;
+            margin-right: 160px;
+        }
+
+        .content-main::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(76, 175, 80, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .content-main::after {
+            content: '🌿';
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            font-size: 3em;
+            opacity: 0.08;
+            pointer-events: none;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-main h2 {
+            color: var(--primary-green);
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--accent-green);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .info-item {
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--light-green);
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            padding-left: 15px;
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-item h3 {
+            color: var(--secondary-green);
+            font-size: 1.3em;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .info-item .date {
+            color: var(--accent-green);
+            font-weight: 700;
+            font-size: 0.85em;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .company-name {
+            color: var(--earth-brown);
+            font-weight: 600;
+            font-size: 0.95em;
+            margin: 5px 0;
+        }
+
+        .info-item p {
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-top: 8px;
+            font-size: 0.95em;
+        }
+
+        .skill-box {
+            background: linear-gradient(135deg, var(--light-green) 0%, rgba(200, 230, 201, 0.5) 100%);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary-green);
+            margin-bottom: 12px;
+            box-shadow: 0 4px 12px rgba(27, 94, 32, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .skill-box:hover {
+            transform: translateX(8px);
+            box-shadow: 0 6px 16px rgba(27, 94, 32, 0.2);
+        }
+
+        .skill-box strong {
+            color: var(--primary-green);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+            color: var(--white);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 5px 5px 5px 0;
+            box-shadow: 0 4px 10px rgba(27, 94, 32, 0.2);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid var(--light-green);
+            color: var(--text-light);
+            font-size: 0.85em;
+        }
+
+        @media (max-width: 1000px) {
+            .profile-sidebar {
+                width: 250px;
+            }
+
+            .content-wrapper {
+                margin-left: 250px;
+                width: calc(100% - 250px);
+            }
+
+            .content-main {
+                padding: 40px 40px;
+                margin-right: 140px;
+            }
+
+            .tabs-sidebar {
+                width: 140px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .profile-sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 20px;
+                box-shadow: none;
+                border-bottom: 2px solid var(--light-green);
+            }
+
+            .content-wrapper {
+                flex-direction: column;
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .tabs-sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                right: 0;
+                flex-direction: row;
+                flex-wrap: wrap;
+                border-bottom: 2px solid var(--light-green);
+                border-right: none;
+                overflow-x: auto;
+            }
+
+            .tabs-sidebar h3 {
+                width: 100%;
+                margin-bottom: 15px;
+                border-right: none;
+            }
+
+            .tab-button {
+                flex: 0 0 calc(50% - 5px);
+                margin-right: 10px;
+            }
+
+            .content-main {
+                padding: 30px 25px;
+                margin-right: 0;
+            }
+
+            .content-main h2 {
+                font-size: 1.8em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-main {
+                padding: 20px 15px;
+            }
+
+            .content-main h2 {
+                font-size: 1.5em;
+            }
+
+            .profile-photo {
+                width: 130px;
+                height: 130px;
+            }
+
+            .tab-button {
+                flex: 0 0 100%;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- LEFT SIDEBAR - ONLY PROFILE (Name & Photo) -->
+        <div class="profile-sidebar">
+            <img src="Quinton- -A.jpg" alt="Quinton Profile" class="profile-photo" />
+            <div class="profile-info">
+                <h1>QUINTON</h1>
+                <p class="title">🎓 Biomedical Engineer</p>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT WRAPPER -->
+        <div class="content-wrapper">
+            <!-- RIGHT SIDEBAR - NAVIGATION TABS -->
+            <div class="tabs-sidebar">
+                <h3>📑 Menu</h3>
+                <button class="tab-button active" onclick="openTab(event, 'personal')">Personal</button>
+                <button class="tab-button" onclick="openTab(event, 'education')">Education</button>
+                <button class="tab-button" onclick="openTab(event, 'experience')">Experience</button>
+                <button class="tab-button" onclick="openTab(event, 'skills')">Skills</button>
+                <button class="tab-button" onclick="openTab(event, 'projects')">Projects</button>
+                <button class="tab-button" onclick="openTab(event, 'achievements')">Achievements</button>
+                <button class="tab-button" onclick="openTab(event, 'languages')">Languages</button>
+                <button class="tab-button" onclick="openTab(event, 'contact')">Contact</button>
+            </div>
+
+            <!-- MAIN CONTENT DISPLAY AREA -->
+            <div class="content-main">
+                <!-- TAB 1: PERSONAL INFO -->
+                <div id="personal" class="tab-content active">
+                    <h2>🌱 Personal Information</h2>
+                    <div class="info-item">
+                        <h3>Summary</h3>
+                        <p>Passionate about healthcare technology and innovative biomedical solutions. Skilled in equipment troubleshooting, project coordination, and technical documentation.</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>About Me</h3>
+                        <p>Highly motivated and detail-oriented Biomedical Engineering student with a strong foundation in healthcare technology, hospital management, and research methodologies. Skilled in handling patient data, biomedical equipment basics, project coordination, and technical documentation. Adept at multitasking, learning quickly, and delivering quality outcomes within deadlines.</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Location</h3>
+                        <p>1/459a Shalom Villa, Niraivanantham, Somanur, Coimbatore, Tamil Nadu</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Professional Focus</h3>
+                        <p>Healthcare Technology • Hospital Management • Biomedical Systems • Clinical Operations • Equipment Maintenance</p>
+                    </div>
+                </div>
+
+                <!-- TAB 2: EDUCATION -->
+                <div id="education" class="tab-content">
+                    <h2>🎓 Education</h2>
+                    <div class="info-item">
+                        <h3>BTech Biomedical Engineering</h3>
+                        <p class="date">Ongoing</p>
+                        <p class="company-name">Karunya Institute of Technology and Sciences</p>
+                        <p>Comprehensive curriculum covering biomedical equipment, healthcare technology, medical device testing, and clinical operations. Hands-on experience with laboratory techniques and research methodologies.</p>
+                    </div>
+                </div>
+
+                <!-- TAB 3: EXPERIENCE -->
+                <div id="experience" class="tab-content">
+                    <h2>💼 Work Experience</h2>
+                    <div class="info-item">
+                        <h3>Project Tech Intern</h3>
+                        <p class="date">June 2025 – July 2025</p>
+                        <p class="company-name">Leeway Biomedical</p>
+                        <p>Provided technical support for biomedical projects, assisting in project planning, documentation, and coordination. Managed schedules and project timelines, organized team meetings, and prepared technical notes and reports. Conducted research to support project development and assisted in testing and implementation.</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Troubleshooting Intern</h3>
+                        <p class="date">June 2024 – June 2024</p>
+                        <p class="company-name">Apollo Hospitals</p>
+                        <p>Assisted in troubleshooting and maintenance of biomedical equipment, ensuring accurate performance and reliability. Supported in monitoring device functionality, documenting issues, and coordinating with technical teams. Conducted equipment checks, prepared technical reports, and researched biomedical solutions to enhance workflow efficiency.</p>
+                    </div>
+                </div>
+
+                <!-- TAB 4: SKILLS -->
+                <div id="skills" class="tab-content">
+                    <h2>⚙️ Professional Skills</h2>
+                    
+                    <h3 style="color: var(--secondary-green); margin-bottom: 15px; margin-top: 20px;">Technical Skills with Logos</h3>
+                    
+                    <!-- Programming Languages & Tools -->
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 25px;">
+                        <!-- Python -->
+                        <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: linear-gradient(135deg, #3776ab 0%, #ffd43b 100%); border-radius: 8px; box-shadow: 0 4px 10px rgba(18, 44, 79, 0.15);">
+                            <span style="font-size: 2em;">🐍</span>
+                            <div>
+                                <strong style="color: white; display: block; font-size: 1em;">Python</strong>
+                                <span style="color: rgba(255, 255, 255, 0.8); font-size: 0.8em;">Data Analysis, ML</span>
+                            </div>
+                        </div>
+
+                        <!-- Computer Vision -->
+                        <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; box-shadow: 0 4px 10px rgba(18, 44, 79, 0.15);">
+                            <span style="font-size: 2em;">👁️</span>
+                            <div>
+                                <strong style="color: white; display: block; font-size: 1em;">Computer Vision</strong>
+                                <span style="color: rgba(255, 255, 255, 0.8); font-size: 0.8em;">Image Processing</span>
+                            </div>
+                        </div>
+
+                        <!-- HTML -->
+                        <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: linear-gradient(135deg, #e34c26 0%, #ffa500 100%); border-radius: 8px; box-shadow: 0 4px 10px rgba(18, 44, 79, 0.15);">
+                            <span style="font-size: 2em;">🔷</span>
+                            <div>
+                                <strong style="color: white; display: block; font-size: 1em;">HTML</strong>
+                                <span style="color: rgba(255, 255, 255, 0.8); font-size: 0.8em;">Web Development</span>
+                            </div>
+                        </div>
+
+                        <!-- JavaScript -->
+                        <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: linear-gradient(135deg, #f7df1e 0%, #333333 100%); border-radius: 8px; box-shadow: 0 4px 10px rgba(18, 44, 79, 0.15);">
+                            <span style="font-size: 2em;">⚡</span>
+                            <div>
+                                <strong style="color: white; display: block; font-size: 1em;">JavaScript</strong>
+                                <span style="color: rgba(255, 255, 255, 0.8); font-size: 0.8em;">Interactive UX</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="color: var(--secondary-green); margin-bottom: 15px; margin-top: 20px;">Core Competencies</h3>
+                    <div class="skill-box">
+                        <strong>Healthcare Technology:</strong> Biomedical Equipment Troubleshooting • Clinical Data Management • Medical Device Testing • Healthcare Technology Management
+                    </div>
+                    <div class="skill-box">
+                        <strong>Technical Skills:</strong> Project Coordination • Technical Documentation • Laboratory Techniques • Research Assistance • Patient Data Handling
+                    </div>
+                    <div class="skill-box">
+                        <strong>Soft Skills:</strong> Time Management • Team Collaboration • Problem-Solving • Critical Thinking • Communication • Leadership
+                    </div>
+                    <h3 style="color: var(--secondary-green); margin-bottom: 15px; margin-top: 20px;">Key Competencies</h3>
+                    <div>
+                        <span class="badge">Equipment Troubleshooting</span>
+                        <span class="badge">Project Coordination</span>
+                        <span class="badge">Data Management</span>
+                        <span class="badge">Technical Documentation</span>
+                        <span class="badge">Team Collaboration</span>
+                        <span class="badge">Problem Solving</span>
+                        <span class="badge">Hospital Operations</span>
+                        <span class="badge">Medical Devices</span>
+                        <span class="badge">Python Programming</span>
+                        <span class="badge">Computer Vision</span>
+                        <span class="badge">HTML & CSS</span>
+                        <span class="badge">JavaScript</span>
+                    </div>
+                </div>
+
+                <!-- TAB 5: PROJECTS -->
+                <div id="projects" class="tab-content">
+                    <h2>🔬 Projects</h2>
+                    <div class="info-item">
+                        <h3>Advancements in Functional Near-Infrared Spectroscopy (fNIRS)</h3>
+                        <p>Integrating AI-Generated Music and Electrical Stimulation for Neurorehabilitation. Functional Near-Infrared Spectroscopy has emerged as a non-invasive neuroimaging modality that monitors cortical hemodynamics by detecting fluctuations in blood oxygenation.</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Intradermal Microfluidic Smart Patch</h3>
+                        <p>Real-Time Metabolite Monitoring & Automated Drug Modulation. An innovative leap forward for chronic condition management, merging biomedical engineering, microfluidics, wearable tech, and IoT into a single smart patch solution with strong potential for intellectual property protection and global healthcare impact.</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>NFC Based Patient Monitor</h3>
+                        <p>Designed and implemented a smart patient monitoring system using Near Field Communication (NFC) to securely store and retrieve patient health records. The system allows medical staff to access critical data by scanning an NFC tag, enabling quick decision-making and reducing paperwork.</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Password Based Circuit Breaker</h3>
+                        <p>A safety and security system designed to control the operation of electrical loads using password authentication mechanism. Instead of conventional switches, the circuit breaker can only be turned ON or OFF when the correct password is entered through a keypad.</p>
+                    </div>
+                </div>
+
+                <!-- TAB 6: ACHIEVEMENTS -->
+                <div id="achievements" class="tab-content">
+                    <h2>🏆 Achievements & Leadership</h2>
+                    <div class="info-item">
+                        <h3>Junior Coordinator – HR</h3>
+                        <p class="date">IAESTE India</p>
+                        <p>Managed exchange programs and HR operations, strengthening international collaboration and enhancing organizational efficiency.</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Public Relations Coordinator</h3>
+                        <p class="date">IAESTE Karunya</p>
+                        <p>Led cultural events and communication initiatives, improving engagement and collaboration across the organization.</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Student Representative</h3>
+                        <p class="date">Karunya Institute</p>
+                        <p>Represented student interests and contributed to institutional improvements and student welfare programs.</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Biomedical Project Team Lead</h3>
+                        <p>Led innovative biomedical engineering projects, coordinating team efforts and driving technical excellence.</p>
+                    </div>
+                </div>
+
+                <!-- TAB 7: LANGUAGES -->
+                <div id="languages" class="tab-content">
+                    <h2>🗣️ Languages</h2>
+                    <div class="info-item">
+                        <h3>English</h3>
+                        <p>Proficiency: <strong>Fluent</strong> - Professional & Academic Communication</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Tamil</h3>
+                        <p>Proficiency: <strong>Fluent</strong> - Native Language</p>
+                    </div>
+                </div>
+
+                <!-- TAB 8: CONTACT -->
+                <div id="contact" class="tab-content">
+                    <h2>📞 Contact Information</h2>
+                    <div class="info-item">
+                        <h3>Phone</h3>
+                        <p><a href="tel:+919751699997" style="color: var(--accent-green); text-decoration: none; font-weight: 600;">+91 9751699997</a></p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Email</h3>
+                        <p><a href="mailto:quintonannlee06@gmail.com" style="color: var(--accent-green); text-decoration: none; font-weight: 600;">quintonannlee06@gmail.com</a></p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Location</h3>
+                        <p>📍 Coimbatore, Tamil Nadu, India</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>LinkedIn</h3>
+                        <p><a href="https://linkedin.com" style="color: var(--accent-green); text-decoration: none; font-weight: 600;" target="_blank">Connect on LinkedIn</a></p>
+                    </div>
+                    <div class="info-item">
+                        <h3>GitHub</h3>
+                        <p><a href="https://github.com" style="color: var(--accent-green); text-decoration: none; font-weight: 600;" target="_blank">View Projects on GitHub</a></p>
+                    </div>
+
+                    <div class="footer">
+                        <p>✨ Resume Website Created with HTML, CSS & JavaScript | 2025</p>
+                        <p style="margin-top: 10px; font-size: 0.8em;">I hereby declare that all the information stated above is true and correct.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show the selected tab and mark button as active
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>
